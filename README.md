@@ -1,5 +1,7 @@
 # Babel Plugin for [tinytime](https://github.com/aweary/tinytime)
 
+## Work In Progress!
+
 ## Purpose
 Automatically transform tinytime convenience usage to the optimal way like so:
 
@@ -25,5 +27,3 @@ function Time({ date }) {
   )
 }
 ```
-
-## WIP
