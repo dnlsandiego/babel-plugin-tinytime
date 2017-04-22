@@ -27,3 +27,6 @@ function Time({ date }) {
   )
 }
 ```
+
+## License
+MIT
