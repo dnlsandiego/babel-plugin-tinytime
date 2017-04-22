@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-tinytime",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Plugin to automatically transform tinytime convenience usage to the optimal way.",
   "main": "lib/index.js",
   "scripts": {
