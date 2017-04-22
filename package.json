@@ -1,0 +1,19 @@
+{
+  "name": "babel-plugin-tinytime",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "tinytime"
+  ],
+  "author": "Daniel Sandiego",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^1.2.2"
+  }
+}
