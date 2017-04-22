@@ -23,7 +23,7 @@ export default function(babel) {
                 ]);
 
                 program.node.body.unshift(templateDeclaration);
-                path.replaceWith(t.identifier(templateDeclarationName.name));
+                path.replaceWith(t.identifier(templateDeclarationVarName.name));
             }
         }
     };
