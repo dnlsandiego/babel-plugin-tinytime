@@ -26,6 +26,8 @@ function Time({ date }) {
 }
 ```
 
+Reasoning behind why this is needed can be read here: https://github.com/aweary/tinytime#efficiency.
+
 ## Install
 
 ```
