@@ -12,6 +12,7 @@
     "babel-plugin",
     "tinytime"
   ],
+  "repository": "dnlsandiego/babel-plugin-tinytime",
   "author": "Daniel Sandiego",
   "license": "MIT",
   "devDependencies": {
