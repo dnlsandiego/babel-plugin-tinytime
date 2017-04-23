@@ -14,7 +14,7 @@ export default function(babel) {
             CallExpression(path) {
                 if (path.node.callee.name !== tinytimeImportName) return;
 
-                if (path.scope.block.type !== 'Program') return;
+                if (path.scope.block.type === 'Program') return;
 
                 const program = path.find(parent => parent.isProgram());
                 const templateDeclarationVarName = program.scope.generateUidIdentifier(
