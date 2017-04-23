@@ -1,10 +1,8 @@
 # Babel Plugin for [tinytime](https://github.com/aweary/tinytime)
 
-## Work In Progress!
+Automatically transform usage of tinytime that is not recommended to the optimal way of using it.
 
-## Purpose
-Automatically transform tinytime convenience usage to the optimal way like so:
-
+Transforms
 ```jsx
 function Time({ date }) {
   return (
@@ -15,7 +13,7 @@ function Time({ date }) {
 }
 ```
 
-to:
+to something in the effect of:
 
 ```jsx
 const template = tinytime('{h}:{mm}:{ss}{a}');
@@ -28,5 +26,21 @@ function Time({ date }) {
 }
 ```
 
-## License
-MIT
+## Install
+
+```
+// Yarn
+yarn add babel-plugin-tinytime --dev
+
+// NPM
+npm install babel-plugin-tinytime --save-dev
+```
+
+## Usage
+###### .babelrc
+```json
+{
+  "presets": ["es2015"],
+  "plugins": ["tinytime"]
+}
+```
