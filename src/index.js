@@ -1,7 +1,23 @@
 export default function(babel) {
     const { types: t } = babel;
 
-    let tinytimeImportName;
+    const hoistTinytimeInvocation = {
+        CallExpression(path) {
+            if (path.node.callee.name !== this.tinytimeImportName) return;
+
+            if (path.scope.block.type === 'Program') return;
+
+            const templateDeclarationVarName = this.program.scope.generateUidIdentifier(
+                'template'
+            );
+            const templateDeclaration = t.variableDeclaration('var', [
+                t.variableDeclarator(templateDeclarationVarName, path.node)
+            ]);
+
+            this.program.node.body.unshift(templateDeclaration);
+            path.replaceWith(t.identifier(templateDeclarationVarName.name));
+        }
+    };
 
     return {
         name: 'tinytime-ast-transform',
@@ -9,23 +25,15 @@ export default function(babel) {
             ImportDeclaration(path) {
                 if (path.node.source.value !== 'tinytime') return;
 
-                tinytimeImportName = path.node.specifiers[0].local.name;
-            },
-            CallExpression(path) {
-                if (path.node.callee.name !== tinytimeImportName) return;
-
-                if (path.scope.block.type === 'Program') return;
-
+                const tinytimeImportName = path.node.specifiers.find(
+                    specifier => specifier.type === 'ImportDefaultSpecifier'
+                ).local.name;
                 const program = path.find(parent => parent.isProgram());
-                const templateDeclarationVarName = program.scope.generateUidIdentifier(
-                    'template'
-                );
-                const templateDeclaration = t.variableDeclaration('var', [
-                    t.variableDeclarator(templateDeclarationVarName, path.node)
-                ]);
 
-                program.node.body.unshift(templateDeclaration);
-                path.replaceWith(t.identifier(templateDeclarationVarName.name));
+                program.traverse(hoistTinytimeInvocation, {
+                    tinytimeImportName,
+                    program
+                });
             }
         }
     };
