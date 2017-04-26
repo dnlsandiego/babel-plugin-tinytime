@@ -4,7 +4,10 @@ export default function(babel) {
     const hoistTinytimeInvocation = {
         CallExpression(path) {
             if (path.node.callee.name !== this.tinytimeImportName) return;
-
+            // Don't transform when the template obj is already being assigned into a variable.
+            // e.g. `const template = tinytime('{h}:{mm}:{ss}{a}')`
+            if (path.container.type === 'VariableDeclarator') return;
+            // Don't transform when tinytime is invoked globally.
             if (path.scope.block.type === 'Program') return;
 
             const templateDeclarationVarName = this.program.scope.generateUidIdentifier(
@@ -15,6 +18,7 @@ export default function(babel) {
             ]);
 
             this.program.node.body.unshift(templateDeclaration);
+
             path.replaceWith(t.identifier(templateDeclarationVarName.name));
         }
     };
@@ -25,10 +29,10 @@ export default function(babel) {
             ImportDeclaration(path) {
                 if (path.node.source.value !== 'tinytime') return;
 
-                const tinytimeImportName = path.node.specifiers.find(
-                    specifier => specifier.type === 'ImportDefaultSpecifier'
-                ).local.name;
                 const program = path.find(parent => parent.isProgram());
+                const tinytimeImportName = path.node.specifiers.find(
+                    ({ type }) => type === 'ImportDefaultSpecifier'
+                ).local.name;
 
                 program.traverse(hoistTinytimeInvocation, {
                     tinytimeImportName,
